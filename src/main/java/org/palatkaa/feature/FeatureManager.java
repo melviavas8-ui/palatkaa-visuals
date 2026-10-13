@@ -22,7 +22,6 @@ import org.palatkaa.event.EventTarget;
 import org.palatkaa.event.events.input.KeyboardInputEvent;
 import org.palatkaa.event.events.input.MouseInputEvent;
 import org.palatkaa.event.events.lifecycle.ShutdownEvent;
-import org.palatkaa.feature.impl.combat.HitSoundFeature;
 import org.palatkaa.feature.impl.combat.ShiftTapFeature;
 import org.palatkaa.feature.impl.misc.AuctionHelperFeature;
 import org.palatkaa.feature.impl.misc.AutoDuelFeature;
@@ -30,7 +29,6 @@ import org.palatkaa.feature.impl.misc.AutoTpaAcceptFeature;
 import org.palatkaa.feature.impl.misc.DeathCoordsFeature;
 import org.palatkaa.feature.impl.misc.ElytraHelperFeature;
 import org.palatkaa.feature.impl.misc.NoDelaysFeature;
-import org.palatkaa.feature.impl.movement.ElytraMotionFeature;
 import org.palatkaa.feature.impl.movement.InventoryMoveFeature;
 import org.palatkaa.feature.impl.movement.NoPushFeature;
 import org.palatkaa.feature.impl.movement.SafeWalkFeature;
@@ -89,12 +87,10 @@ public final class FeatureManager {
       if (!this.initialized) {
          List.of(
                new SprintFeature(),
-               new ElytraMotionFeature(),
                new InventoryMoveFeature(),
                new NoPushFeature(),
                new SafeWalkFeature(),
                new BlockOutlineFeature(),
-               new HitSoundFeature(),
                new ShiftTapFeature(),
                new HudFeature(),
                new ArrowsFeature(),
