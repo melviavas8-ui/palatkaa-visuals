@@ -128,7 +128,7 @@ public final class FeatureManager {
                new ClickPearlFeature(),
                new WindJumpFeature(),
                new AutoLeaveFeature(),
-               new AutoAuthFeature(),
+               new AutoAuthFeature()
             )
             .forEach(this::register);
          this.configStore.load(this);
