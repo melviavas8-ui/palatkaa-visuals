@@ -1,6 +1,7 @@
 package org.palatkaa.utils.text;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.FormattedCharSequence;
 
@@ -16,6 +17,10 @@ public final class NameProtectUtil {
 
    public static Component protect(Component component) {
       return component;
+   }
+
+   public static FormattedText protect(FormattedText text) {
+      return text;
    }
 
    public static FormattedCharSequence protect(FormattedCharSequence sequence) {
