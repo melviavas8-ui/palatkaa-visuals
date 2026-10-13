@@ -96,7 +96,7 @@ public final class HudFeature extends Feature {
       this.hotbarElement,
       this.armorHudElement,
       this.quickUseElement,
-      this.staffListElement,
+      this.staffListElement
    );
    private HudElement draggedElement;
    private boolean sizeMigrationChecked;
