@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.palatkaa.feature.impl.pve.PveManagerFeature;
 import org.palatkaa.feature.setting.Setting;
 import org.palatkaa.utils.ConfigIO;
 
@@ -85,7 +84,7 @@ final class FeatureConfigStore {
          return false;
       }
 
-      boolean migrated = PveManagerConfigMigration.migrate(features, manager.getFeature(PveManagerFeature.class));
+      boolean migrated = false; // PveManagerConfigMigration / PveManagerFeature removed
 
       for (Feature feature : manager.getFeatures()) {
          JsonObject featureJson = features.getAsJsonObject(feature.getName());

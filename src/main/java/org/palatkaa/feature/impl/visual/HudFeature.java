@@ -13,8 +13,6 @@ import org.palatkaa.event.events.render.Render2DEvent;
 import org.palatkaa.feature.Feature;
 import org.palatkaa.feature.FeatureCategory;
 import org.palatkaa.feature.FeatureManager;
-import org.palatkaa.feature.impl.pve.MineHelperFeature;
-import org.palatkaa.feature.impl.pve.PveManagerFeature;
 import org.palatkaa.feature.setting.MultiSelectSetting;
 import org.palatkaa.feature.setting.NumberSetting;
 import org.palatkaa.hud.ArmorHudElement;
@@ -22,10 +20,8 @@ import org.palatkaa.hud.CoordsElement;
 import org.palatkaa.hud.HotbarElement;
 import org.palatkaa.hud.HudElement;
 import org.palatkaa.hud.KeybindsElement;
-import org.palatkaa.hud.MineTimerElement;
 import org.palatkaa.hud.NotificationsElement;
 import org.palatkaa.hud.PotionsElement;
-import org.palatkaa.hud.PveStatusElement;
 import org.palatkaa.hud.QuickUseElement;
 import org.palatkaa.hud.StaffListElement;
 import org.palatkaa.hud.TargetElement;
@@ -90,8 +86,6 @@ public final class HudFeature extends Feature {
    private final ArmorHudElement armorHudElement = new ArmorHudElement();
    private final QuickUseElement quickUseElement = new QuickUseElement();
    private final StaffListElement staffListElement = new StaffListElement();
-   private final PveStatusElement pveStatusElement = new PveStatusElement();
-   private final MineTimerElement mineTimerElement = new MineTimerElement();
    private final List<HudElement> allElements = List.of(
       this.watermarkElement,
       this.coordsElement,
@@ -103,8 +97,6 @@ public final class HudFeature extends Feature {
       this.armorHudElement,
       this.quickUseElement,
       this.staffListElement,
-      this.pveStatusElement,
-      this.mineTimerElement
    );
    private HudElement draggedElement;
    private boolean sizeMigrationChecked;
@@ -483,15 +475,7 @@ public final class HudFeature extends Feature {
          visible.add(this.staffListElement);
       }
 
-      if (PveManagerFeature.INSTANCE.currentState.getValue()) {
-         visible.add(this.pveStatusElement);
-      }
-
-      MineHelperFeature mineHelper = FeatureManager.INSTANCE.getFeature(MineHelperFeature.class);
-      if (mineHelper != null && mineHelper.isMineTimerSelected()) {
-         visible.add(this.mineTimerElement);
-      }
-
+      // PveManager / MineHelper / status elements removed
       return visible;
    }
 

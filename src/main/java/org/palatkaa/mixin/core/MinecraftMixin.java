@@ -24,9 +24,6 @@ import org.palatkaa.event.events.lifecycle.ShutdownEvent;
 import org.palatkaa.event.events.lifecycle.WorldJoinEvent;
 import org.palatkaa.event.events.lifecycle.WorldLeaveEvent;
 import org.palatkaa.event.events.screen.ScreenOpenEvent;
-import org.palatkaa.feature.impl.movement.ElytraBoosterFeature;
-import org.palatkaa.feature.impl.movement.SpeedFeature;
-import org.palatkaa.feature.impl.movement.TimerFeature;
 
 @Mixin(Minecraft.class)
 public abstract class MinecraftMixin {
@@ -47,29 +44,17 @@ public abstract class MinecraftMixin {
 
    @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
    private void onTick(CallbackInfo ci) {
-      if (this.palatkaa$runningTimerTick || !TimerFeature.shouldSkipBaseTick() && !SpeedFeature.shouldSkipBaseTick() && !ElytraBoosterFeature.shouldSkipBaseTick()
-         )
-       {
-         if (EventManager.hasListeners(GameTickEvent.class)) {
-            Minecraft client = (Minecraft)(Object)this;
-            EventManager.call(Events.GAME_TICK.set(client, TICK_CONTEXT.begin(client)));
-         }
-      } else {
-         ci.cancel();
+      // Timer/Speed/ElytraBooster features removed — always fire GameTickEvent
+      if (EventManager.hasListeners(GameTickEvent.class)) {
+         Minecraft client = (Minecraft)(Object)this;
+         EventManager.call(Events.GAME_TICK.set(client, TICK_CONTEXT.begin(client)));
       }
    }
 
    @Inject(method = "tick", at = @At("TAIL"))
    private void runTimerTick(CallbackInfo ci) {
-      if (!this.palatkaa$runningTimerTick && (TimerFeature.consumeExtraTick() || SpeedFeature.consumeExtraTick() || ElytraBoosterFeature.consumeExtraTick())) {
-         this.palatkaa$runningTimerTick = true;
+      // Timer/Speed/ElytraBooster removed — no extra ticks
 
-         try {
-            ((Minecraft)(Object)this).tick();
-         } finally {
-            this.palatkaa$runningTimerTick = false;
-         }
-      }
    }
 
    @Inject(method = "startAttack", at = @At("HEAD"), cancellable = true)

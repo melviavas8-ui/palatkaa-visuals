@@ -3,7 +3,6 @@ package org.palatkaa.pve.economy;
 import java.util.Objects;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
-import org.palatkaa.feature.impl.pve.PveManagerFeature;
 import org.palatkaa.pve.navigation.NavigationOptions;
 import org.palatkaa.pve.navigation.Navigator;
 
@@ -28,7 +27,7 @@ public final class EconomyNavigator {
          }
 
          if (!this.begun) {
-            this.navigator.begin(PveManagerFeature.INSTANCE.configureNavigation(NavigationOptions.walking()));
+            this.navigator.begin(NavigationOptions.walking());
             this.begun = true;
          }
 

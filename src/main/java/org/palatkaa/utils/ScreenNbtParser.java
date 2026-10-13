@@ -52,7 +52,6 @@ import org.palatkaa.event.EventTarget;
 import org.palatkaa.event.events.game.GameTickEvent;
 import org.palatkaa.event.events.lifecycle.ShutdownEvent;
 import org.palatkaa.event.events.screen.ScreenCloseEvent;
-import org.palatkaa.feature.impl.misc.DonItems;
 import org.palatkaa.utils.text.ChatUtil;
 
 public final class ScreenNbtParser {
@@ -377,14 +376,7 @@ public final class ScreenNbtParser {
       result.add("lore", this.encodeLore(stack, jsonOps, errors));
       result.add("enchantments", this.encodeEnchantments(stack));
       result.add("potion", this.encodePotion(stack));
-      DonItems.findAny(stack).ifPresent(item -> {
-         JsonObject recognized = new JsonObject();
-         recognized.addProperty("server", item.server().name());
-         recognized.addProperty("category", item.category().name());
-         recognized.addProperty("enum", ((Enum)item).name());
-         recognized.addProperty("display_name", item.displayName());
-         result.add("don_item", recognized);
-      });
+      // DonItems feature removed
       result.add("stack_json", this.valueOrFallback(ItemStack.CODEC.encodeStart(jsonOps, stack), errors, new JsonPrimitive(stack.toString())));
       Tag encodedNbt = this.valueOrFallback(ItemStack.CODEC.encodeStart(nbtOps, stack), errors, null);
       result.addProperty("stack_snbt", encodedNbt == null ? stack.toString() : encodedNbt.toString());

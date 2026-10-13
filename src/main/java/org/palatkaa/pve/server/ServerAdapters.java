@@ -4,7 +4,6 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.Optional;
 import net.minecraft.client.Minecraft;
-import org.palatkaa.feature.impl.pve.PveManagerFeature;
 
 public final class ServerAdapters {
    private static final Map<ServerProfile, ServerAdapter> ADAPTERS = new EnumMap<>(ServerProfile.class);
@@ -13,7 +12,7 @@ public final class ServerAdapters {
    }
 
    public static ServerAdapter current() {
-      return forProfile(PveManagerFeature.INSTANCE.resolveServerProfile(Minecraft.getInstance()));
+      return forProfile(ServerProfile.detect(Minecraft.getInstance()));
    }
 
    public static ServerAdapter forProfile(ServerProfile profile) {

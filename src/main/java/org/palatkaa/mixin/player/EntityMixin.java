@@ -15,7 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.palatkaa.event.EventManager;
 import org.palatkaa.event.events.input.PlayerVelocityStrafeEvent;
-import org.palatkaa.feature.impl.combat.HitBoxesFeature;
 import org.palatkaa.feature.impl.movement.NoPushFeature;
 import org.palatkaa.utils.combat.aura.AngleConnection;
 
@@ -25,14 +24,6 @@ public abstract class EntityMixin {
    private void cancelEntityPush(Entity entity, CallbackInfo ci) {
       if (NoPushFeature.shouldCancelEntityPush((Entity)(Object)this, entity)) {
          ci.cancel();
-      }
-   }
-
-   @Inject(method = "getPickRadius", at = @At("RETURN"), cancellable = true)
-   private void expandPickRadius(CallbackInfoReturnable<Float> cir) {
-      HitBoxesFeature hitBoxes = HitBoxesFeature.getEnabled();
-      if (hitBoxes != null && hitBoxes.appliesTo((Entity)(Object)this)) {
-         cir.setReturnValue((Float)cir.getReturnValue() + (float)hitBoxes.getHorizontalExpansion());
       }
    }
 

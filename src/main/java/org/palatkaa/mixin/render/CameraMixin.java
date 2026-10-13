@@ -11,7 +11,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.palatkaa.context.RotationContext;
-import org.palatkaa.feature.impl.player.FreeCamFeature;
 import org.palatkaa.feature.impl.player.FreeLookFeature;
 import org.palatkaa.feature.impl.visual.RemovalsFeature;
 
@@ -19,20 +18,6 @@ import org.palatkaa.feature.impl.visual.RemovalsFeature;
 public abstract class CameraMixin {
    @Shadow
    protected abstract void setPosition(double var1, double var3, double var5);
-
-   @Inject(method = "setPosition(Lnet/minecraft/world/phys/Vec3;)V", at = @At("HEAD"), cancellable = true)
-   private void palatkaa$freeCamPosition(Vec3 pos, CallbackInfo ci) {
-      FreeCamFeature cam = FreeCamFeature.getInstance();
-      if (cam != null && cam.isEnabled() && cam.pos != null) {
-         Vec3 nextPos = FreeCamFeature.getInterpolatedCameraPosition();
-         if (nextPos != null && Double.isFinite(nextPos.x) && Double.isFinite(nextPos.y) && Double.isFinite(nextPos.z)) {
-            if (!(nextPos.distanceToSqr(pos) <= 1.0E-8)) {
-               this.setPosition(nextPos.x, nextPos.y, nextPos.z);
-               ci.cancel();
-            }
-         }
-      }
-   }
 
    @Inject(method = "extractRenderState", at = @At("TAIL"))
    private void onExtractRenderState(CameraRenderState cameraState, float cameraEntityPartialTick, CallbackInfo ci) {

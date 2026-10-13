@@ -20,7 +20,6 @@ import org.palatkaa.event.EventManager;
 import org.palatkaa.event.Events;
 import org.palatkaa.event.events.game.PlayerTickEvent;
 import org.palatkaa.feature.impl.movement.NoPushFeature;
-import org.palatkaa.feature.impl.movement.NoSlowFeature;
 import org.palatkaa.utils.combat.LocalPlayerHistory;
 import org.palatkaa.utils.combat.aura.AngleConnection;
 
@@ -129,7 +128,8 @@ public abstract class LocalPlayerMixin {
    )
    private Vec2 palatkaa$cancelItemSlowdown(Vec2 vec, float multiplier) {
       LocalPlayer player = (LocalPlayer)(Object)this;
-      return NoSlowFeature.shouldCancelSlowdown(player) && player.isUsingItem() && !player.isPassenger() ? vec.scale(1.0F) : vec.scale(multiplier);
+      // NoSlowFeature removed
+      return vec.scale(multiplier);
    }
 
    @Unique
