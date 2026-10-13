@@ -1,8 +1,6 @@
 package org.palatkaa.hud;
 
-import java.util.List;
 import net.minecraft.client.Minecraft;
-import org.palatkaa.utils.render.gui.Render2DUtil;
 
 /**
  * QuickUse HUD element. ServerHelperFeature was removed — element stays registered
