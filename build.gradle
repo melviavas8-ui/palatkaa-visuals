@@ -65,7 +65,6 @@ tasks.withType(JavaCompile).configureEach {
     exclude 'module-info.java'
     exclude '**/package-info.java'
     // Orphaned decompiled tree not integrated into the mod entrypoint
-    exclude '**/ua/daamky/**'
 }
 
 java {
