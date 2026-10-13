@@ -1,0 +1,83 @@
+plugins {
+    id 'fabric-loom' version '1.17.12'
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    mavenCentral()
+    maven { name = "Fabric"; url = "https://maven.fabricmc.net/" }
+    maven { name = "Sponge Snapshots"; url = "https://repo.spongepowered.org/repository/maven-public/" }
+}
+
+loom {
+    noIntermediateMappings()
+    runs {
+        client {
+            property "fabric.runtimeMappingNamespace", "named"
+        }
+    }
+}
+
+// Генерируем identity-маппинги на лету в build/, чтобы не хранить лишние файлы в корне проекта
+def generatedMappings = file("${layout.buildDirectory.get().asFile}/generated/mappings/empty-mappings.jar")
+if (!generatedMappings.exists()) {
+    generatedMappings.parentFile.mkdirs()
+    new java.util.zip.ZipOutputStream(new FileOutputStream(generatedMappings)).withCloseable { zip ->
+        zip.putNextEntry(new java.util.zip.ZipEntry("mappings/mappings.tiny"))
+        zip.write("tiny\t2\t0\tofficial\tnamed\tintermediary\n".getBytes(java.nio.charset.StandardCharsets.UTF_8))
+        zip.closeEntry()
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings files(generatedMappings)
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+    // Fabric API
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    // Annotations & Lombok
+    compileOnly 'org.jetbrains:annotations:26.0.1'
+    compileOnly 'org.projectlombok:lombok:1.18.36'
+    compileOnly 'com.google.errorprone:error_prone_annotations:2.36.0'
+    compileOnly 'biz.aQute.bnd:biz.aQute.bnd.annotation:7.1.0'
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "minecraft_version", project.minecraft_version
+    inputs.property "loader_version", project.loader_version
+    filteringCharset "UTF-8"
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 25
+    it.options.encoding = "UTF-8"
+    it.options.compilerArgs += ['-proc:none']
+    exclude 'module-info.java'
+    exclude '**/package-info.java'
+}
+
+java {
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.toVersion(25)
+    targetCompatibility = JavaVersion.toVersion(25)
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.base.archivesName.get()}"}
+    }
+}
+
+remapSourcesJar {
+    targetNamespace = "named"
+}

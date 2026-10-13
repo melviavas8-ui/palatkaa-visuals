@@ -1,0 +1,11 @@
+package org.palatkaa.mixin.accessor;
+
+import net.minecraft.world.entity.projectile.FishingHook;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Accessor;
+
+@Mixin(FishingHook.class)
+public interface FishingHookAccessor {
+   @Accessor("biting")
+   boolean palatkaa$isBiting();
+}

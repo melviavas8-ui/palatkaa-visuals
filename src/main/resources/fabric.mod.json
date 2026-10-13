@@ -1,0 +1,70 @@
+{
+    "schemaVersion": 1,
+    "id": "palatkaa",
+    "version": "1.0-SNAPSHOT",
+    "name": "palatkaa",
+    "description": "",
+    "authors": [
+        
+    ],
+    "contact": {
+        
+    },
+    "license": "All-Rights-Reserved",
+    "icon": "assets/palatkaa/icon.png",
+    "environment": "client",
+    "entrypoints": {
+        "main": [
+            "org.palatkaa.Palatkaa"
+        ]
+    },
+    "jars": [
+        {
+            "file": "META-INF/jars/Emojiful-Fabric-26.2-5.3.2.jar"
+        },
+        {
+            "file": "META-INF/jars/ImmediatelyFast-Fabric-1.16.1+26.2.jar"
+        },
+        {
+            "file": "META-INF/jars/ViaFabricPlus-4.6.1.jar"
+        },
+        {
+            "file": "META-INF/jars/appleskin-fabric-mc26.2-3.0.10.jar"
+        },
+        {
+            "file": "META-INF/jars/entityculling-fabric-1.10.5-mc26.2.jar"
+        },
+        {
+            "file": "META-INF/jars/ferritecore-9.0.0-fabric.jar"
+        },
+        {
+            "file": "META-INF/jars/holdmyitems-5.1.1+26.2.jar"
+        },
+        {
+            "file": "META-INF/jars/lithium-fabric-0.25.1+mc26.2.jar"
+        },
+        {
+            "file": "META-INF/jars/modmenu-20.0.0-beta.4.jar"
+        },
+        {
+            "file": "META-INF/jars/reeses-sodium-options-fabric-2.2.2+mc26.2.jar"
+        },
+        {
+            "file": "META-INF/jars/sodium-extra-fabric-0.9.1+mc26.2.jar"
+        },
+        {
+            "file": "META-INF/jars/sodium-fabric-0.9.1-beta.3+mc26.2.jar"
+        },
+        {
+            "file": "META-INF/jars/waveycapes-fabric-1.10.2-mc26.2.jar"
+        }
+    ],
+    "mixins": [
+        "palatkaa.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=0.19.3",
+        "fabric-api": "*",
+        "minecraft": "26.2"
+    }
+}
