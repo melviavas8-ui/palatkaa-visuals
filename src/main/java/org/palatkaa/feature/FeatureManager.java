@@ -60,6 +60,7 @@ import org.palatkaa.feature.impl.visual.PopChamsFeature;
 import org.palatkaa.feature.impl.visual.RemovalsFeature;
 import org.palatkaa.feature.impl.visual.ShaderHandsFeature;
 import org.palatkaa.feature.impl.visual.SwingAnimationFeature;
+import org.palatkaa.feature.impl.visual.TargetESPFeature;
 import org.palatkaa.feature.impl.visual.TrajectoriesFeature;
 import org.palatkaa.feature.impl.visual.ViewModelFeature;
 import org.palatkaa.feature.impl.visual.WorldParticlesFeature;
@@ -100,6 +101,7 @@ public final class FeatureManager {
                new NameTagsFeature(),
                new HitParticlesFeature(),
                new JumpCirclesFeature(),
+               new TargetESPFeature(),
                new KillEffectFeature(),
                new TrajectoriesFeature(),
                new WorldParticlesFeature(),

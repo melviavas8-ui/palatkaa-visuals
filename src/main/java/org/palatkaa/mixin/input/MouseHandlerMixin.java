@@ -12,7 +12,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.palatkaa.context.RotationContext;
 import org.palatkaa.event.EventManager;
 import org.palatkaa.event.events.input.MouseInputEvent;
-import org.palatkaa.feature.impl.player.AutoBuyScreen;
 import org.palatkaa.feature.impl.player.FreeLookFeature;
 import org.palatkaa.menu.core.MenuOverlay;
 
@@ -30,14 +29,9 @@ public abstract class MouseHandlerMixin {
 
    @Inject(method = "onScroll", at = @At("HEAD"), cancellable = true)
    private void blockWorldScrollWhileMenuOpen(long window, double horizontal, double vertical, CallbackInfo ci) {
-      if (Minecraft.getInstance().gui.screen() instanceof AutoBuyScreen) {
-         AutoBuyScreen.handleScroll(vertical);
+      if (MenuOverlay.blocksInput()) {
+         MenuOverlay.handleScroll(vertical);
          ci.cancel();
-      } else {
-         if (MenuOverlay.blocksInput()) {
-            MenuOverlay.handleScroll(vertical);
-            ci.cancel();
-         }
       }
    }
 

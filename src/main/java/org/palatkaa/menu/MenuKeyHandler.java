@@ -7,13 +7,12 @@ import org.palatkaa.event.events.input.KeyboardInputEvent;
 import org.palatkaa.event.events.input.MouseInputEvent;
 import org.palatkaa.event.events.screen.ScreenKeyEvent;
 import org.palatkaa.event.events.screen.ScreenMouseButtonEvent;
-import org.palatkaa.feature.impl.player.AutoBuyScreen;
 import org.palatkaa.menu.core.MenuOverlay;
 import org.palatkaa.menu.ui.controls.MenuClipboard;
 
 public final class MenuKeyHandler implements MinecraftContext {
    private static boolean isAutoBuyScreenOpen() {
-      return mc != null && mc.gui != null && mc.gui.screen() instanceof AutoBuyScreen;
+      return false; // AutoBuyScreen removed
    }
 
    @EventTarget(priority = 1000)

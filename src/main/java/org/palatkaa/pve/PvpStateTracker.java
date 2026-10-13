@@ -11,7 +11,6 @@ import org.palatkaa.event.events.lifecycle.WorldJoinEvent;
 import org.palatkaa.event.events.lifecycle.WorldLeaveEvent;
 import org.palatkaa.event.events.packet.PacketReceiveEvent;
 import org.palatkaa.feature.FeatureManager;
-import org.palatkaa.feature.impl.combat.AuraFeature;
 
 public final class PvpStateTracker {
    public static final PvpStateTracker INSTANCE = new PvpStateTracker();
@@ -57,10 +56,7 @@ public final class PvpStateTracker {
             this.markCombatFor(10000L);
          }
 
-         AuraFeature aura = FeatureManager.INSTANCE.getEnabled(AuraFeature.class);
-         if (aura != null && aura.getCurrentTarget() instanceof Player) {
-            this.markCombatFor(10000L);
-         }
+         // Aura removed — combat state from hurt only
       }
    }
 

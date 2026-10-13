@@ -1,0 +1,5 @@
+Bundled jars (Emojiful, ImmediatelyFast, ViaFabricPlus, etc.) were omitted from this ZIP to stay under upload size.
+Copy the META-INF/jars folder from the original repo:
+  https://github.com/melviavas8-ui/palatkaa-visuals/tree/main/src/main/resources/META-INF/jars
+into src/main/resources/META-INF/jars before building.
+ua.daamky sources were removed (excluded from compile; orphaned tree).

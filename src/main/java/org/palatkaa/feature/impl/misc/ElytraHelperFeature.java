@@ -56,13 +56,14 @@ public final class ElytraHelperFeature extends Feature {
    private final ModeSetting mode = this.register(new ModeSetting("Mode", "Aggressive", "Aggressive", "Legit", "HvH"));
    private final InputBindSetting swapBind = this.register(new InputBindSetting("Swap Bind", -1));
    private final InputBindSetting fireworkBind = this.register(new InputBindSetting("Firework Bind", -1));
-   private final BooleanSetting autoTakeoff = this.register(new BooleanSetting("Auto Takeoff", false));
-   private final BooleanSetting autoSprint = this.register(new BooleanSetting("Auto Sprint", false));
-   private final BooleanSetting autoFirework = this.register(new BooleanSetting("Auto Firework", false));
+   // Auto automation removed — kept as constants so remaining code paths compile as disabled
+   private final boolean autoTakeoff = false;
+   private final boolean autoSprint = false;
+   private final boolean autoFirework = false;
    private final StopWatch autoFireworkTimer = new StopWatch();
+   private boolean autoFireworkArmed;
    private final StopWatch fireworkUseTimer = new StopWatch();
    private final StopWatch fireworkCooldown = new StopWatch();
-   private boolean autoFireworkArmed;
    private boolean lastSwapPressed;
    private boolean lastFireworkPressed;
    private ElytraHelperFeature.FireworkPhase fireworkPhase = ElytraHelperFeature.FireworkPhase.IDLE;
@@ -86,8 +87,6 @@ public final class ElytraHelperFeature extends Feature {
 
    public ElytraHelperFeature() {
       super("Elytra Helper", "Elytra swap and firework with Aggressive/Legit mode.", FeatureCategory.MISC, -1);
-      this.autoSprint.visibleWhen(this.autoTakeoff::getValue);
-      this.autoFirework.visibleWhen(this.autoTakeoff::getValue);
    }
 
    @Override
@@ -127,8 +126,8 @@ public final class ElytraHelperFeature extends Feature {
             this.useFirework();
          }
 
-         this.armAutoFireworkOnTakeoff();
-         this.processAutoFirework();
+         // this.armAutoFireworkOnTakeoff(); // removed auto
+         // this.processAutoFirework(); // removed auto
          this.lastSwapPressed = swapPressed;
          this.lastFireworkPressed = fireworkPressed;
       }
@@ -137,7 +136,7 @@ public final class ElytraHelperFeature extends Feature {
    private void tickLegit() {
       this.processArmorSwapLoop();
       this.processFireworkUseLoop();
-      this.processLegitAutoTakeoff();
+      // this.processLegitAutoTakeoff(); // removed auto
       this.processLegitAutoFirework();
       boolean swapPressed = this.isBindHeld(this.swapBind);
       boolean fireworkPressed = this.isBindHeld(this.fireworkBind);
@@ -161,8 +160,8 @@ public final class ElytraHelperFeature extends Feature {
    private void tickHvH() {
       this.processArmorSwapLoop();
       this.updateFireworkUse();
-      this.processLegitAutoTakeoff();
-      this.processAutoFirework();
+      // this.processLegitAutoTakeoff(); // removed auto
+      // this.processAutoFirework(); // removed auto
       boolean swapPressed = this.isBindHeld(this.swapBind);
       boolean fireworkPressed = this.isBindHeld(this.fireworkBind);
       if (Minecraft.getInstance().gui.screen() != null) {
@@ -177,7 +176,7 @@ public final class ElytraHelperFeature extends Feature {
             this.useFirework();
          }
 
-         this.armAutoFireworkOnTakeoff();
+         // this.armAutoFireworkOnTakeoff(); // removed auto
          this.lastSwapPressed = swapPressed;
          this.lastFireworkPressed = fireworkPressed;
       }
@@ -188,14 +187,14 @@ public final class ElytraHelperFeature extends Feature {
       LocalPlayer player = Minecraft.getInstance().player;
       if (player != null) {
          if (this.mode.is("Aggressive")) {
-            if (!this.autoTakeoff.getValue() || !this.isElytraEquipped() || !this.isElytraUsable()) {
+            if (!this.autoTakeoff || !this.isElytraEquipped() || !this.isElytraUsable()) {
                return;
             }
 
             if (player.onGround()) {
                event.setJump(true);
             } else if (!player.isFallFlying()) {
-               if (this.autoSprint.getValue() && this.canSprintForTakeoff()) {
+               if (this.autoSprint && this.canSprintForTakeoff()) {
                   player.setSprinting(true);
                }
 
@@ -213,7 +212,7 @@ public final class ElytraHelperFeature extends Feature {
             }
 
             if (this.shouldJumpForTakeoff) {
-               if (this.autoSprint.getValue() && this.canSprintForTakeoff()) {
+               if (this.autoSprint && this.canSprintForTakeoff()) {
                   player.setSprinting(true);
                }
 
@@ -387,7 +386,7 @@ public final class ElytraHelperFeature extends Feature {
    private void processAutoFirework() {
       LocalPlayer player = Minecraft.getInstance().player;
       if (player != null) {
-         if (!this.autoTakeoff.getValue() || !this.autoFirework.getValue()) {
+         if (!this.autoTakeoff || !this.autoFirework) {
             this.autoFireworkArmed = false;
          } else if (this.autoFireworkArmed && Minecraft.getInstance().gui.screen() == null && !this.isBusy()) {
             if (this.isElytraEquipped() && player.isFallFlying() && this.autoFireworkTimer.finished(75.0)) {
@@ -400,7 +399,7 @@ public final class ElytraHelperFeature extends Feature {
    }
 
    private void armAutoFirework() {
-      this.autoFireworkArmed = this.autoTakeoff.getValue() && this.autoFirework.getValue();
+      this.autoFireworkArmed = this.autoTakeoff && this.autoFirework;
       this.autoFireworkTimer.reset();
    }
 
@@ -410,7 +409,7 @@ public final class ElytraHelperFeature extends Feature {
          this.wasFallFlying = false;
       } else {
          boolean flying = player.isFallFlying();
-         if (flying && !this.wasFallFlying && this.autoTakeoff.getValue() && this.autoFirework.getValue()) {
+         if (flying && !this.wasFallFlying && this.autoTakeoff && this.autoFirework) {
             this.armAutoFirework();
          }
 
@@ -765,7 +764,7 @@ public final class ElytraHelperFeature extends Feature {
       LocalPlayer player = Minecraft.getInstance().player;
       if (player == null) {
          this.shouldJumpForTakeoff = false;
-      } else if (!this.autoTakeoff.getValue()) {
+      } else if (!this.autoTakeoff) {
          this.shouldJumpForTakeoff = false;
       } else if (this.swapPhase != ElytraHelperFeature.SwapPhase.IDLE) {
          this.shouldJumpForTakeoff = false;
@@ -787,7 +786,7 @@ public final class ElytraHelperFeature extends Feature {
 
    private void processLegitAutoFirework() {
       LocalPlayer player = Minecraft.getInstance().player;
-      if (this.autoTakeoff.getValue() && this.autoFirework.getValue() && player != null) {
+      if (this.autoTakeoff && this.autoFirework && player != null) {
          if (this.isElytraEquipped() && player.isFallFlying()) {
             if (this.fireworkUsePhase == ElytraHelperFeature.FireworkUsePhase.IDLE && !player.isUsingItem()) {
                if (this.autoFireworkTimer.finished(1000.0)) {

@@ -2,13 +2,15 @@ package org.palatkaa.feature.impl.movement;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.palatkaa.event.EventTarget;
 import org.palatkaa.event.events.game.GameTickEvent;
 import org.palatkaa.feature.Feature;
 import org.palatkaa.feature.FeatureCategory;
-import org.palatkaa.feature.impl.combat.AuraFeature;
 import org.palatkaa.feature.setting.BooleanSetting;
 import org.palatkaa.feature.setting.NumberSetting;
 import sdk.api.invoke.api.invoke;
@@ -38,8 +40,13 @@ public final class ElytraMotionFeature extends Feature {
    public void onTick(GameTickEvent event) {
       LocalPlayer player = event.getClient().player;
       if (player != null) {
-         AuraFeature aura = AuraFeature.getInstance();
-         LivingEntity target = aura != null && aura.isEnabled() ? aura.getTarget() : null;
+         LivingEntity target = null;
+         if (event.getClient().hitResult instanceof EntityHitResult ehr && ehr.getType() == HitResult.Type.ENTITY) {
+            Entity e = ehr.getEntity();
+            if (e instanceof LivingEntity living && living.isAlive() && living != player) {
+               target = living;
+            }
+         }
          if (target == null) {
             if (!this.waitTarget) {
                player.setNoGravity(false);

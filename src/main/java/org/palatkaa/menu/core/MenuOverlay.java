@@ -4,7 +4,6 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import org.palatkaa.event.events.screen.ScreenMouseButtonEvent;
-import org.palatkaa.feature.impl.player.AutoBuyScreen;
 
 public final class MenuOverlay {
    private static final MenuOverlayState STATE = new MenuOverlayState();
@@ -180,7 +179,7 @@ public final class MenuOverlay {
    }
 
    public static void render(Minecraft minecraft, GuiGraphicsExtractor guiGraphicsExtractor, int screenWidth, int screenHeight) {
-      if (!(minecraft.gui.screen() instanceof AutoBuyScreen)) {
+      if (true /* AutoBuyScreen removed */) {
          if (STATE.isOpen()) {
             if (STATE.isClosing() && STATE.openProgress() <= 0.001F) {
                STATE.close();

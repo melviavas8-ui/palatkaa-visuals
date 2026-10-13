@@ -9,7 +9,10 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerInput;
@@ -29,7 +32,6 @@ import org.palatkaa.event.events.screen.ScreenCloseEvent;
 import org.palatkaa.event.events.screen.ScreenMouseButtonEvent;
 import org.palatkaa.feature.Feature;
 import org.palatkaa.feature.FeatureCategory;
-import org.palatkaa.feature.impl.combat.AuraFeature;
 import org.palatkaa.feature.setting.BooleanSetting;
 import org.palatkaa.feature.setting.InputBindSetting;
 import org.palatkaa.feature.setting.ModeSetting;
@@ -441,7 +443,14 @@ public final class AutoSwapFeature extends Feature implements MinecraftContext {
    }
 
    private void handleAutoDamage(LocalPlayer player) {
-      LivingEntity target = AuraFeature.getInstance().getTarget();
+      LivingEntity target = null;
+      Minecraft mc = Minecraft.getInstance();
+      if (mc.hitResult instanceof EntityHitResult ehr && ehr.getType() == HitResult.Type.ENTITY) {
+         Entity e = ehr.getEntity();
+         if (e instanceof LivingEntity living && living.isAlive()) {
+            target = living;
+         }
+      }
       boolean shouldSwapToDamage = false;
       if (target != null && target.isAlive()) {
          boolean lowHpCondition = this.autoDamageConditions.isSelected("Target Low HP")

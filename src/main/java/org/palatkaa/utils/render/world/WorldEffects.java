@@ -10,6 +10,7 @@ import org.palatkaa.feature.impl.visual.HitParticlesFeature;
 import org.palatkaa.feature.impl.visual.JumpCirclesFeature;
 import org.palatkaa.feature.impl.visual.KillEffectFeature;
 import org.palatkaa.feature.impl.visual.PopChamsFeature;
+import org.palatkaa.feature.impl.visual.TargetESPFeature;
 import org.palatkaa.feature.impl.visual.TrajectoriesFeature;
 import org.palatkaa.feature.impl.visual.WorldParticlesFeature;
 import org.palatkaa.feature.impl.visual.WorldTweaksFeature;
@@ -50,6 +51,7 @@ public final class WorldEffects {
             )
          );
          register(WorldEffect.direct(JumpCirclesFeature::getEnabled, (feature, context) -> feature.renderWorld()));
+         register(WorldEffect.direct(TargetESPFeature::getEnabled, (feature, context) -> feature.renderWorld(context.tickDelta())));
          register(WorldEffect.direct(TrajectoriesFeature::getEnabled, (feature, context) -> feature.renderWorld()));
          register(
             WorldEffect.direct(

@@ -7,7 +7,6 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Matrix3x2fStack;
 import org.palatkaa.feature.FeatureManager;
-import org.palatkaa.feature.impl.misc.ServerHelperFeature;
 import org.palatkaa.feature.setting.InputBindSetting;
 import org.palatkaa.menu.i18n.MenuText;
 import org.palatkaa.menu.ui.Component;
@@ -101,12 +100,8 @@ public final class BindChipRow extends SettingRow {
    }
 
    private ItemStack icon() {
-      if (!"ServerHelper".equals(this.featureName)) {
-         return ItemStack.EMPTY;
-      }
-
-      ServerHelperFeature helper = FeatureManager.INSTANCE.getFeature(ServerHelperFeature.class);
-      return helper == null ? ItemStack.EMPTY : helper.iconForBind(this.bindSetting);
+      // ServerHelperFeature removed
+      return ItemStack.EMPTY;
    }
 
    private void renderItemIcon(Minecraft minecraft, GuiGraphicsExtractor extractor, float x, float y, ItemStack stack) {

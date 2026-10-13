@@ -9,7 +9,6 @@ import org.palatkaa.event.events.packet.PacketReceiveEvent;
 import org.palatkaa.feature.Feature;
 import org.palatkaa.feature.FeatureCategory;
 import org.palatkaa.feature.FeatureManager;
-import org.palatkaa.feature.impl.combat.AuraFeature;
 import org.palatkaa.feature.setting.BooleanSetting;
 import org.palatkaa.pve.PvpStateTracker;
 import org.palatkaa.utils.FriendManager;
@@ -52,12 +51,8 @@ public final class AutoTpaAcceptFeature extends Feature implements MinecraftCont
    }
 
    private boolean isInCombat() {
-      if (!PvpStateTracker.INSTANCE.isActive() && this.player().hurtTime <= 0) {
-         AuraFeature aura = FeatureManager.INSTANCE.getFeature(AuraFeature.class);
-         return aura != null && aura.getCurrentTarget() != null;
-      } else {
-         return true;
-      }
+      // Aura removed — use PvpStateTracker / hurtTime only
+      return PvpStateTracker.INSTANCE.isActive() || this.player().hurtTime > 0;
    }
 }
 
